@@ -1,0 +1,33 @@
+/Debug/
+
+# CMake
+*CMakeFiles*
+CMakeCache.txt
+
+# Make
+# CMAKE is primary build system
+Makefile
+
+# gtest
+test/gtest
+test/ThirdParty
+gtest.patch
+Testing/
+
+# generated libraries
+libs/*
+*.a
+*.so
+*.dll
+
+nbproject/*
+
+*.cmake
+
+# eclipse
+.cproject
+.project
+.settings/
+
+# log files
+*.log
