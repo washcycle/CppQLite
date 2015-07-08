@@ -7,6 +7,7 @@ option(BUILD_TEST "Build all of SQLiteCppWrapper unit tests." OFF)
 
 # Control CMAKE minimum version
 cmake_minimum_required(VERSION 2.8)
+cmake_policy(SET CMP0054 NEW)
 
 # Define project name and language
 project(SQLiteCppWrapper)
@@ -85,6 +86,7 @@ IF(BUILD_TEST)
         "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
     #    "INTERFACE_INCLUDE_DIRECTORIES" "${source_dir}/include"
     )
+
     ExternalProject_Get_Property(gtest source_dir)
     include_directories("${source_dir}/include")
 
@@ -103,6 +105,10 @@ IF(BUILD_TEST)
       set(Suffix ".a")
       set(Pthread "-pthread")
     endif()
+
+    # link required libraries
+    target_link_libraries(MainTest SQLiteCppWrapper)
+    target_link_libraries(MainTest sqlite3)
 
     target_link_libraries(
         MainTest

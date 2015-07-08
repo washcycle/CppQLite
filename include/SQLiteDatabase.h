@@ -17,13 +17,14 @@
 
 // Project includes
 #include "CppSQLiteGlobals.h"
+#include "Cursor.h"
 
 namespace sqlite {
 
 class CPPSQLITE_API SQLiteDatabaseException : public std::exception
 {
 public:
-    SQLiteDatabaseException(std::string& msg) : msg(msg) {}
+    SQLiteDatabaseException(const std::string& msg) : msg(msg) {}
     ~SQLiteDatabaseException() throw() {}
     const char* what() const throw() { return msg.c_str(); }
 private:
@@ -37,12 +38,16 @@ public:
 
     void close();
     
-    std::string test() { return "test"; }
+    const int getVersion();
+    void setVersion(int version);
+    
+    Cursor execQuery(const std::string& sql);    
     
 protected:
-    sqlite3 *db;
-    
-    
+    sqlite3* db;
+
+private:
+    std::string getStdString(const unsigned char* text);
 };
 
 } /* namespace sqlite */
