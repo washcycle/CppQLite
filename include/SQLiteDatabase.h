@@ -33,21 +33,47 @@ private:
     
 class CPPSQLITE_API SQLiteDatabase {
 public:
-    SQLiteDatabase(const std::string& filename);
+    SQLiteDatabase();
     virtual ~SQLiteDatabase();
 
+    void open(const std::string& filename, const int flags);
+    void open(int flags);
     void close();
+
+    void beginTransaction();
+    void endTransaction();
+    void rollback();
     
-    const int getVersion();
-    void setVersion(int version);
-    
-    Cursor execQuery(const std::string& sql);    
-    
+    int getVersion();
+    void setVersion(const int version);
+
+    Cursor query(const std::string& sql,
+                 const std::string& selection,
+                 const std::vector<std::string>& selectionArgs,
+                 const std::string& whereClaus,
+                 const std::string& orderBy);
+
+    Cursor query(bool distinct,
+                 const std::string& sql,
+                 const std::string& selection,
+                 const std::vector<std::string>& selectionArgs,
+                 const std::string& whereClaus,
+                 const std::string& orderBy);
+
+    Cursor query(const std::string& sql);
+
+    void execQuery(const std::string& sql);
+
+    bool isOpen();
+
 protected:
-    sqlite3* db;
 
 private:
+    sqlite3* db_;
+    bool open_;
+
     std::string getStdString(const unsigned char* text);
+    std::string getSQLite3ErrorMessage();
 };
 
 } /* namespace sqlite */

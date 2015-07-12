@@ -14,7 +14,7 @@ project(SQLiteCppWrapper)
 
 # Set compiler flags for targets
 IF (CMAKE_COMPILER_IS_GNUCXX)
-  SET (CMAKE_CXX_FLAGS "-std=gnu++11")
+  SET (CMAKE_CXX_FLAGS "-std=c++11")
 ELSEIF (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   SET (CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
 ELSEIF (MSVC)
@@ -92,19 +92,29 @@ IF(BUILD_TEST)
 
     # Add test executable target
     add_executable(MainTest ${PROJECT_SOURCE_DIR}/test/src/main.cpp
-                            ${PROJECT_SOURCE_DIR}/test/src/unittest_SQLiteDatabase.cpp)
+                            ${PROJECT_SOURCE_DIR}/test/src/unittest_SQLiteDatabase.cpp
+                            ${PROJECT_SOURCE_DIR}/test/src/unittest_SQLiteOpenHelper.cpp
+                            ${PROJECT_SOURCE_DIR}/test/src/SQLiteDatabaseHelper.cpp)
 
     # Create dependency of MainTest on googletest
     add_dependencies(MainTest gtest)
 
     # Specify MainTest's link libraries
     ExternalProject_Get_Property(gtest binary_dir)
-    if(MSVC)
-      set(Suffix ".lib")
-    else()
-      set(Suffix ".a")
-      set(Pthread "-pthread")
-    endif()
+    IF(MSVC)
+        IF(BUILD_SHARED_LIBS)
+            set(Suffix ".dll")
+        ELSE(BUILD_SHARED_LIBS)
+            set(Suffix ".lib")
+        ENDIF(BUILD_SHARED_LIBS)
+    ELSE(MSVC)
+        IF(BUILD_SHARED_LIBS)
+            set(Suffix ".so")
+        ELSE(BUILD_SHARED_LIBS)
+            set(Suffix ".a")
+        ENDIF(BUILD_SHARED_LIBS)
+        set(Pthread "-pthread")
+    ENDIF(MSVC)
 
     # link required libraries
     target_link_libraries(MainTest SQLiteCppWrapper)
@@ -116,7 +126,7 @@ IF(BUILD_TEST)
         optimized ${binary_dir}/ReleaseLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${Suffix}
         ${Pthread})
     
-    add_test(all MainTest)    
+    add_test(all MainTest)
 ENDIF(BUILD_TEST)
 
 

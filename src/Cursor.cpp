@@ -54,7 +54,7 @@ void Cursor::addRow(const std::vector<std::string>& resultRow){
 void Cursor::reset(){
     // Reset count and position
     pos = -1;
-    count = -1;
+    count = 0;
     
     // Clear Result Set
     rs.clear();
