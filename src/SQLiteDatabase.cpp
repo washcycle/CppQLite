@@ -55,6 +55,7 @@ void SQLiteDatabase::close() {
     }
 
     db_ = nullptr;
+    open_ = false;
 }
 
 int SQLiteDatabase::getVersion() {
@@ -71,11 +72,13 @@ int SQLiteDatabase::getVersion() {
             return version;
         }
         else {
-            throw SQLiteDatabaseException("Failed to query database version" + getSQLite3ErrorMessage());
+            sqlite3_finalize(pStmt);
+            throw SQLiteDatabaseException("Failed to query database version " + getSQLite3ErrorMessage());
         }
     }
     else {
-        throw SQLiteDatabaseException("Failed to prepare statement" + getSQLite3ErrorMessage());
+        sqlite3_finalize(pStmt);
+        throw SQLiteDatabaseException("Failed to prepare statement " + getSQLite3ErrorMessage());
     }
 }
 

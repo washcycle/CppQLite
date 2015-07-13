@@ -43,12 +43,15 @@ SQLiteDatabase& SQLiteOpenHelper::getDatabase(const std::string& filename, int f
     // Create, upgrade, or downgrade if needed
     if(db_.getVersion() == 0){
         onCreate(db_);
+        db_.setVersion(version_);
     }
     else if(db_.getVersion() < version_){
         onDowngrade(db_);
+        db_.setVersion(version_);
     }
     else if(db_.getVersion() > version_){
         onUpgrade(db_);
+        db_.setVersion(version_);
     }
 
     if(flags == SQLITE_OPEN_READONLY){
