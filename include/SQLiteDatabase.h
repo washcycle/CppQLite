@@ -11,6 +11,7 @@
 // STD includes
 #include <string>
 #include <exception>
+#include <mutex>
 
 // 3rd Party Includes
 #include "sqlite3.h"
@@ -37,7 +38,6 @@ public:
     virtual ~SQLiteDatabase();
 
     void open(const std::string& filename, const int flags);
-    void open(int flags);
     void close();
 
     void beginTransaction();
@@ -47,18 +47,13 @@ public:
     int getVersion();
     void setVersion(const int version);
 
-    Cursor query(const std::string& sql,
-                 const std::string& selection,
-                 const std::vector<std::string>& selectionArgs,
-                 const std::string& whereClaus,
-                 const std::string& orderBy);
+    Cursor query(const std::string& table, const std::vector<std::string>& columns, const std::string& selection,
+                 const std::vector<std::string>& selectionArgs, const std::string& groupBy, const std::string& orderBy,
+                 const std::string& limit);
 
-    Cursor query(bool distinct,
-                 const std::string& sql,
-                 const std::string& selection,
-                 const std::vector<std::string>& selectionArgs,
-                 const std::string& whereClaus,
-                 const std::string& orderBy);
+    Cursor query(bool distinct, const std::string& table, const std::vector<std::string>& columns,
+                 const std::string& selection, const std::vector<std::string>& selectionArgs, const std::string& groupBy,
+                 const std::string& orderBy, const std::string& limit);
 
     Cursor query(const std::string& sql);
 

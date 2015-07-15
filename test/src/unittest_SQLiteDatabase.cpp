@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <stdio.h>
+#include <vector>
 
 bool fexists(const std::string& filename) {
   std::ifstream ifile(filename.c_str());
@@ -78,6 +78,48 @@ TEST_F(SQLiteDatabaseTestFixture, get_readonly_database_test) {
         db.open(test_database_filename_, SQLITE_OPEN_READONLY);
 
         EXPECT_ANY_THROW(db.setVersion(expected_version));
+
+        db.close();
+    }
+    catch (const std::exception & e){
+        std::cout << e.what() << std::endl;
+    }
+}
+
+TEST_F(SQLiteDatabaseTestFixture, query_test) {
+
+    sqlite::SQLiteDatabase db;
+
+    try{
+        db.open(test_database_filename_, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
+
+
+        // Create Cars table test data
+        const std::string kCreateTable =
+                "CREATE TABLE IF NOT EXISTS cars "
+                        "(mpg text, "
+                        "weight text)";
+
+        db.execQuery(kCreateTable);
+
+        db.execQuery("INSERT INTO cars "
+                             "VALUES('34', '2000')");
+
+        db.execQuery("INSERT INTO cars "
+                             "VALUES('27', '25000')");
+
+        db.execQuery("INSERT INTO cars "
+                             "VALUES('16', '5000')");
+
+        std::vector<std::string> columns;
+        columns.push_back("mpg");
+        columns.push_back("weight");
+
+        std::string selection;
+
+        std::vector<std::string> selectionArgs;
+
+        auto c = db.query(true, "cars", columns, selection, selectionArgs, "", "", "");
 
         db.close();
     }

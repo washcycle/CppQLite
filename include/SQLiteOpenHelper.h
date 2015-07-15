@@ -39,7 +39,9 @@ private:
     int version_;
     bool read_only_;
 
-    SQLiteDatabase& getDatabase(const std::string& filename, int flags);
+    std::mutex db_mutex;
+
+    SQLiteDatabase& getDatabase(const std::string& filename, const int flags);
 };
 
 } /* namespace sqlite */

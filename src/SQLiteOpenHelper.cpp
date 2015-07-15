@@ -30,7 +30,10 @@ SQLiteDatabase& SQLiteOpenHelper::getWriteableDatabase() {
     return getDatabase(filename_, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
 }
 
-SQLiteDatabase& SQLiteOpenHelper::getDatabase(const std::string& filename, int flags){
+SQLiteDatabase& SQLiteOpenHelper::getDatabase(const std::string& filename, const int flags){
+
+    // Lock other threads from trying to open the database at the same time
+    std::lock_guard<std::mutex> lock(db_mutex);
 
     if(db_.isOpen()){
         // database already open
@@ -62,7 +65,12 @@ SQLiteDatabase& SQLiteOpenHelper::getDatabase(const std::string& filename, int f
 }
 
 void SQLiteOpenHelper::close() {
-    db_.close();
+    std::lock_guard<std::mutex> lock(db_mutex);
+
+    if (db_.isOpen()) {
+        db_.close();
+    }
+
     read_only_ = false;
 }
 
