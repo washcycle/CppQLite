@@ -22,7 +22,7 @@ public:
     virtual void onUpgrade(sqlite::SQLiteDatabase& db);
 
 private:
-    const static std::string database_name;
+    const static std::string table_name;
     const static int version;
 };
 

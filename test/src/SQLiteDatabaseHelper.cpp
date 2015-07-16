@@ -8,16 +8,15 @@
 #include <SQLiteOpenHelper.h>
 #include "SQLiteDatabaseHelper.h"
 
-const std::string SQLiteDatabaseHelper::database_name = "cars";
+const std::string SQLiteDatabaseHelper::table_name = "cars";
 const int SQLiteDatabaseHelper::version = 1;
 
-SQLiteDatabaseHelper::SQLiteDatabaseHelper() : sqlite::SQLiteOpenHelper(database_name, version){
-}
+SQLiteDatabaseHelper::SQLiteDatabaseHelper() : sqlite::SQLiteOpenHelper(table_name, version){}
 
 void SQLiteDatabaseHelper::onCreate(sqlite::SQLiteDatabase& db) {
 
     const std::string kCreateTable =
-            "CREATE TABLE IF NOT EXISTS cars "
+            "CREATE TABLE IF NOT EXISTS " + table_name + " "
             "(mpg text, "
             "weight text)";
 
@@ -34,9 +33,7 @@ void SQLiteDatabaseHelper::onCreate(sqlite::SQLiteDatabase& db) {
 }
 
 void SQLiteDatabaseHelper::onUpgrade(sqlite::SQLiteDatabase& db) {
-
+    db.execQuery("DROP cars");
 }
 
-SQLiteDatabaseHelper::~SQLiteDatabaseHelper() {
-
-}
+SQLiteDatabaseHelper::~SQLiteDatabaseHelper() {}

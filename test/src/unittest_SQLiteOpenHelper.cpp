@@ -42,3 +42,10 @@ TEST(SQLiteDatabaseHelper, read_only_test) {
 
     EXPECT_FALSE(db.isOpen());
 }
+
+struct Car{
+    std::string make;
+    int mpg;
+    int weight;
+};
+
