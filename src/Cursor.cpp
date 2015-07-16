@@ -63,5 +63,8 @@ void Cursor::reset(){
     columnNames.clear();
 }
 
+bool Cursor::hasNext() {
+    return (pos_++ < count_);
+}
 } /* namespace sqlite */
 
