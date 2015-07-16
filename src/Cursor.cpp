@@ -10,15 +10,15 @@
 
 namespace sqlite {
 
-Cursor::Cursor() : count(0), pos(-1) {
+Cursor::Cursor() : count_(0), pos_(-1) {
 }
 
 Cursor::~Cursor() {
 }
 
 bool Cursor::next() {
-    if(pos < count - 1){
-        pos++;
+    if(pos_ < count_){
+        pos_++;
         return true;
     }
     else{
@@ -35,7 +35,7 @@ std::string Cursor::getString(const int columnIndex) const {
         throw new SQLiteDatabaseException("Invalid column index");
     }
 
-    rs[pos][columnIndex - 1];
+    return rs[pos_][columnIndex - 1];
 }
 
 int Cursor::getInt(const int columnIndex) const {
@@ -43,18 +43,18 @@ int Cursor::getInt(const int columnIndex) const {
         throw new SQLiteDatabaseException("Invalid column index");
     }
 
-    return stoi(rs[pos][columnIndex - 1]);
+    return stoi(rs[pos_][columnIndex - 1]);
 }
 
 void Cursor::addRow(const std::vector<std::string>& resultRow){    
     rs.push_back(resultRow);
-    count++;
+    count_++;
 }
 
 void Cursor::reset(){
-    // Reset count and position
-    pos = -1;
-    count = 0;
+    // Reset count_ and position
+    pos_ = -1;
+    count_ = 0;
     
     // Clear Result Set
     rs.clear();

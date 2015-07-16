@@ -31,7 +31,7 @@ public:
     bool hasNext();
     void reset();
     
-    const int getCount() const { return ( count + 1 ); };
+    const int getCount() const { return ( count_ + 1 ); };
     const std::vector<std::string>& getColumnsNames() const { return columnNames; }
     int getColumnIndex(const std::string& columnName) const;
     unsigned char getBlob(const int columnIndex) const;
@@ -46,8 +46,8 @@ private:
     std::vector<std::string> columnNames;
     std::map<std::string, int> columnNamesIndexMap;
     
-    int count;
-    int pos;
+    int count_;
+    int pos_;
     
     ResultSet rs;
     

@@ -121,6 +121,16 @@ TEST_F(SQLiteDatabaseTestFixture, query_test) {
 
         auto c = db.query(true, "cars", columns, selection, selectionArgs, "", "", "");
 
+        c.next();
+        EXPECT_STREQ(c.getString(1).c_str(), "34");
+        EXPECT_STREQ(c.getString(2).c_str(), "2000");
+        c.next();
+        EXPECT_STREQ(c.getString(1).c_str(), "27");
+        EXPECT_STREQ(c.getString(2).c_str(), "25000");
+        c.next();
+        EXPECT_STREQ(c.getString(1).c_str(), "16");
+        EXPECT_STREQ(c.getString(2).c_str(), "5000");
+
         db.close();
     }
     catch (const std::exception & e){
