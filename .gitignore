@@ -1,5 +1,3 @@
-/Debug/
-
 # clion
 .idea
 
@@ -17,12 +15,6 @@ test/ThirdParty
 gtest.patch
 Testing/
 
-# generated libraries
-libs/*
-*.a
-*.so
-*.dll
-
 nbproject/*
 
 *.cmake
@@ -34,3 +26,32 @@ nbproject/*
 
 # log files
 *.log
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
