@@ -24,6 +24,8 @@ public:
 private:
     const static std::string table_name;
     const static int version;
+
+    void addMoreCars();
 };
 
 

@@ -33,7 +33,21 @@ void SQLiteDatabaseHelper::onCreate(sqlite::SQLiteDatabase& db) {
 }
 
 void SQLiteDatabaseHelper::onUpgrade(sqlite::SQLiteDatabase& db) {
-    db.execQuery("DROP cars");
+    db.execQuery("DROP TABLE IF EXISTS cars");
+}
+
+void SQLiteDatabaseHelper::addMoreCars(){
+
+    auto& db = getWriteableDatabase();
+
+    db.execQuery("INSERT INTO cars "
+                         "VALUES('34', '2000')");
+
+    db.execQuery("INSERT INTO cars "
+                         "VALUES('27', '25000')");
+
+    db.execQuery("INSERT INTO cars "
+                         "VALUES('16', '5000')");
 }
 
 SQLiteDatabaseHelper::~SQLiteDatabaseHelper() {}
