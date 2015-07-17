@@ -1,16 +1,16 @@
-# root source directory of the project ${SQLiteCppWrapper_SOURCE_DIR}
-# root binary directory of the project ${SQLiteCppWrapper_BINARY_DIR}
+# root source directory of the project ${CppQLite_SOURCE_DIR}
+# root binary directory of the project ${CppQLite_BINARY_DIR}
 
 # BUILD_SHARED_LIBS is CMAKE variable, shown her for clarity
 option(BUILD_SHARED_LIBS "Build shared libraries (DLLs)." OFF)
-option(BUILD_TEST "Build all of SQLiteCppWrapper unit tests." OFF)
+option(BUILD_TEST "Build all of CppQLite unit tests." OFF)
 
 # Control CMAKE minimum version
 cmake_minimum_required(VERSION 2.8)
 cmake_policy(SET CMP0054 NEW)
 
 # Define project name and language
-project(SQLiteCppWrapper)
+project(CppQLite)
 
 # Set compiler flags for targets
 IF (CMAKE_COMPILER_IS_GNUCXX)
@@ -24,20 +24,20 @@ ENDIF ()
 link_directories(${SQLiteCppWrapper_BINARY_DIR}/src)
 
 IF(BUILD_SHARED_LIBS)
-  SET(SQLiteCppWrapperLIBRARY_TYPE SHARED)
+  SET(SCppQLite_LIBRARY_TYPE SHARED)
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 ELSE(BUILD_SHARED_LIBS)
-  SET(SQLiteCppWrapper_LIBRARY_TYPE STATIC)
+  SET(CppQLite_LIBRARY_TYPE STATIC)
   SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
   SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 ENDIF(BUILD_SHARED_LIBS)
 
-# Create list of SQLiteCppWrapper source files
+# Create list of CppQLite source files
 file(GLOB SOURCES "src/*.cpp")
 
-add_library(SQLiteCppWrapper ${SOURCES})
+add_library(CppQLite ${SOURCES})
 
-target_include_directories(SQLiteCppWrapper PUBLIC ${SQLiteCppWrapper_SOURCE_DIR}/include)
+target_include_directories(CppQLite PUBLIC ${CppQLite_SOURCE_DIR}/include)
 
 # optional build test
 IF(BUILD_TEST)
@@ -117,7 +117,7 @@ IF(BUILD_TEST)
     ENDIF(MSVC)
 
     # link required libraries
-    target_link_libraries(MainTest SQLiteCppWrapper)
+    target_link_libraries(MainTest CppQLite)
     target_link_libraries(MainTest sqlite3)
 
     target_link_libraries(
