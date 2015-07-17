@@ -1,7 +1,12 @@
 #include "../gtest/src/gtest/include/gtest/gtest.h"
 #include "SQLiteDatabaseHelper.h"
 
-
+// Test Car Data Structure
+struct Car{
+    std::string make;
+    int mpg;
+    int weight;
+};
 
 TEST(SQLiteDatabaseHelper, read_write_test) {
 
@@ -42,10 +47,4 @@ TEST(SQLiteDatabaseHelper, read_only_test) {
 
     EXPECT_FALSE(db.isOpen());
 }
-
-struct Car{
-    std::string make;
-    int mpg;
-    int weight;
-};
 
