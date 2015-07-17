@@ -85,31 +85,29 @@ int SQLiteDatabase::getVersion() {
 }
 
 void SQLiteDatabase::setVersion(const int version) {
-    char *zErrMsg;
     std::string sql = "PRAGMA user_version = " + std::to_string(version);
-
-    auto rc = sqlite3_exec(db_, sql.c_str(), nullptr, nullptr, &zErrMsg);
-
-    // If the sql executed return else throw exception
-    if (rc == SQLITE_OK) {
-        return;
-    }
-    else {
-        throw SQLiteDatabaseException("Failed to get database version" + std::string(zErrMsg));
-    }
+    execQuery(sql);
 }
 
 void SQLiteDatabase::execQuery(const std::string& sql){
-    char *zErrMsg;
+    char *zErrMsg = nullptr;
+
+    // don't continue if the database is not open
+    if(!open_){
+        throw SQLiteDatabaseException("Can't execute query database connection not open");
+    }
 
     auto rc = sqlite3_exec(db_, sql.c_str(), nullptr, nullptr, &zErrMsg);
 
     // If the sql executed return else throw exception
     if (rc == SQLITE_OK) {
+        sqlite3_free(zErrMsg);
         return;
     }
     else {
-        throw SQLiteDatabaseException("Failed to execute query" + std::string(zErrMsg));
+        auto msg = "Error executing sql " + std::string(zErrMsg);
+        sqlite3_free(zErrMsg);
+        throw SQLiteDatabaseException(msg);
     }
 }
 
