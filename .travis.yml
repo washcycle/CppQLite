@@ -1,0 +1,8 @@
+language: cpp
+
+compiler:
+    - clang
+    - gcc
+
+before_install:
+    - cmake -DBUILD_TEST=1
