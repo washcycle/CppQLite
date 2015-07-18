@@ -4,10 +4,13 @@ compiler:
     - clang
     - gcc
 
-before_install:
+before_script:
     - wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz
     - tar xf cmake-3.2.2.tar.gz
     - cd cmake-3.2.2
     - ./configure
     - make
+    - export PATH=$PATH:$PWD/cmake-3.2.2/bin/
+
+before_install
     - cmake -DBUILD_TEST=1
