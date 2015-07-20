@@ -11,5 +11,15 @@ sudo: false
 #    - sudo apt-get update -q
 #    - sudo apt-get install cmake
 
+addons:
+  apt:
+    sources:
+    - andykimpe
+
+addons:
+  apt:
+    packages:
+    - cmake
+
 before_install:
     - cmake -DBUILD_TEST=1
