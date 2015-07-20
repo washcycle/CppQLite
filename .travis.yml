@@ -9,6 +9,3 @@ before_script:
     - sudo apt-get update -q
     - sudo apt-get install cmake
 
-before_install:
-    - cmake -DBUILD_TEST=1
-
