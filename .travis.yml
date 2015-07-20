@@ -11,8 +11,5 @@ sudo: false
 #    - sudo apt-get update -q
 #    - sudo apt-get install cmake
 
-#addons:
-#  apt:
-#    sources:
-#    - deadsnakes
-#    - ubuntu-toolchain-r-test
+before_install:
+    - cmake -DBUILD_TEST=1
