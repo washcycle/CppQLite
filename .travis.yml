@@ -4,10 +4,10 @@ compiler:
     - clang
     - gcc
 
-before_script:
-    - sudo add-apt-repository ppa:andykimpe/cmake3 -y
-    - sudo apt-get update -q
-    - sudo apt-get install cmake
+#before_script:
+#    - sudo add-apt-repository ppa:andykimpe/cmake3 -y
+#    - sudo apt-get update -q
+#    - sudo apt-get install cmake
 
 before_install
     - cmake -DBUILD_TEST=1
