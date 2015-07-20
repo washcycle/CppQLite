@@ -4,8 +4,15 @@ compiler:
     - clang
     - gcc
 
-before_script:
-    - sudo add-apt-repository ppa:andykimpe/cmake3 -y
-    - sudo apt-get update -q
-    - sudo apt-get install cmake
+sudo: false
 
+#before_script:
+#    - sudo add-apt-repository ppa:andykimpe/cmake3 -y
+#    - sudo apt-get update -q
+#    - sudo apt-get install cmake
+
+#addons:
+#  apt:
+#    sources:
+#    - deadsnakes
+#    - ubuntu-toolchain-r-test
