@@ -5,9 +5,9 @@ compiler:
     - gcc
 
 before_script:
-    - sudo add-apt-repository -y ppa:andykimpe/cmake3
+    - sudo add-apt-repository ppa:andykimpe/cmake3 -y
     - sudo apt-get update -q
-    - sudo apt-get install cmake
+    - sudo apt-get install cmake3
 
 before_install
     - cmake -DBUILD_TEST=1
