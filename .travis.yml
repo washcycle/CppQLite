@@ -9,8 +9,8 @@ sudo: required
 before_install:
     - sudo add-apt-repository ppa:andykimpe/cmake3 -y
     - sudo apt-get update -q
-    - sudo apt-get install cmake
-    - cmake -DBUILD_TEST=1
+    - sudo apt-get install cmake3
+    - cmake3 -DBUILD_TEST=1
 #addons:
 #  apt:
 #    sources:
