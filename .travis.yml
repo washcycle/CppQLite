@@ -11,3 +11,4 @@ before_script:
 
 before_install
     - cmake -DBUILD_TEST=1
+
