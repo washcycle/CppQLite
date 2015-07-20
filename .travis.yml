@@ -4,7 +4,7 @@ compiler:
     - clang
     - gcc
 
-sudo: true
+sudo: required
 
 before_script:
     - sudo add-apt-repository ppa:andykimpe/cmake3 -y
