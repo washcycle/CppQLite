@@ -1,11 +1,12 @@
 # CppQLite
 SQLite C++ API that provides convince functions and low level access to the SQLite C API.
-
+[![Build Status](https://travis-ci.org/washcycle/CppQLite.svg?branch=master)](https://travis-ci.org/washcycle/CppQLite)
 # List of Classes
-* SQLiteDatabase - provides CPP convenience API and wrapper around SQLite C API.
+* SQLiteDatabase - provides C++ convenience API and wrapper around SQLite C API.
 * SQLiteOpenHelper - provides base class for database helper classes.
 * Cursor - provides common cursor functionality for query result sets.
 
+# Example Code
 ```cpp
 #include <SQLiteOpenHelper.h>
 #include <iostream>
@@ -94,7 +95,4 @@ int main(){
         std::cout << e.what(); // Print out exception error
     }
 } /* main */
-
-
-
 ```
