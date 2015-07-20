@@ -19,7 +19,7 @@ addons:
 addons:
   apt:
     packages:
-    - cmake
+    - cmake3
 
 before_install:
     - cmake -DBUILD_TEST=1
