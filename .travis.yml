@@ -7,6 +7,7 @@ compiler:
 sudo: required
 
 before_install:
+    - sudo apt-get purge cmake
     - sudo add-apt-repository ppa:smspillaz/cmake-2.8.12 -y
     - sudo apt-get update -q
     - sudo apt-get install cmake=2.8.12.2-0~13~ubuntu12.04.1
