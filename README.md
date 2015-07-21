@@ -6,7 +6,7 @@ SQLite C++ API that provides convince functions and low level access to the SQLi
 * SQLiteOpenHelper - provides base class for database helper classes.
 * Cursor - provides common cursor functionality for query result sets.
 
-# Example Code
+# Example Use
 ```cpp
 #include <SQLiteOpenHelper.h>
 #include <iostream>
