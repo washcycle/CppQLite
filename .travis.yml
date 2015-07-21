@@ -11,7 +11,7 @@ before_install:
     - sudo add-apt-repository ppa:smspillaz/cmake-2.8.12 -y
     - sudo apt-get update -q
     - sudo apt-get install cmake=2.8.12.2-0~13~ubuntu12.04.1
-    - cmake -DBUILD_TEST=1
+    - cmake -DBUILD_TEST=1 .
 #addons:
 #  apt:
 #    sources:
