@@ -14,7 +14,7 @@
 #include <mutex>
 
 // 3rd Party Includes
-#include "sqlite3.h"
+#include <sqlite3.h>
 
 // Project includes
 #include "CppSQLiteGlobals.h"
