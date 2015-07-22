@@ -17,7 +17,7 @@ before_install:
     - sudo add-apt-repository ppa:smspillaz/cmake-2.8.12 -y
     - sudo apt-get update -q
     - sudo apt-get install cmake=2.8.12.2-0~13~ubuntu12.04.1
-    - sudo apt-get install sqlite3 -y
+    - sudo apt-get install sqlite3 libsqlite3-dev -y
     - cmake -DBUILD_TEST=1 .
 
 script:
