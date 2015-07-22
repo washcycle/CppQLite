@@ -17,6 +17,7 @@ before_install:
     - sudo apt-get purge cmake
     - sudo apt-get install cmake=2.8.12.2-0~13~ubuntu12.04.1
     - sudo apt-get install -qq sqlite3 libsqlite3-dev
+    - sqlite3 --version
 
 before_script:
     - mkdir build
