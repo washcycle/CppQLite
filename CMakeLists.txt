@@ -64,6 +64,7 @@ IF(BUILD_TEST)
     ExternalProject_Add(
         gtest
         URL https://googletest.googlecode.com/files/gtest-1.7.0.zip
+        TIMEOUT 30
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/test/gtest
         # Disable install step
         INSTALL_COMMAND ""
