@@ -1,4 +1,4 @@
-#include "../gtest/src/gtest/include/gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "SQLiteDatabaseHelper.h"
 
 // Test Car Data Structure

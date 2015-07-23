@@ -89,6 +89,7 @@ IF(BUILD_TEST)
 
     ExternalProject_Get_Property(gtest source_dir)
     include_directories("${source_dir}/include")
+    message("${source_dir}/include")
 
     # Add test executable target
     add_executable(MainTest ${PROJECT_SOURCE_DIR}/test/src/main.cpp

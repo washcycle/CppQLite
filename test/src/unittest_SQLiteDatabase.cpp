@@ -1,4 +1,4 @@
-#include "../gtest/src/gtest/include/gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "../../include/SQLiteDatabase.h"
 
 #include <iostream>
