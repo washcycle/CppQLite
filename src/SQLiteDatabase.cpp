@@ -5,7 +5,6 @@
  *  Author: Matthew Landowski <matthew.landowski@gmail.com>
  */
 
-#include <fstream>
 #include "SQLiteDatabase.h"
 
 namespace sqlite {
