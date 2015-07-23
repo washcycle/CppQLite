@@ -30,9 +30,9 @@ void SQLiteDatabase::open(const std::string& filename, const int flags) {
         auto rc = sqlite3_open(filename.c_str(), &db_);
 
         if (rc) {
-//            std::string errorMsg = "Can't open database: " + std::string(sqlite3_errstr(rc));
-//            sqlite3_close(db_);
-//            throw SQLiteDatabaseException(errorMsg);
+            std::string errorMsg = "Can't open database: " + std::string(sqlite3_errstr(rc));
+            sqlite3_close(db_);
+            throw SQLiteDatabaseException(errorMsg);
         }
 
     }
@@ -40,9 +40,9 @@ void SQLiteDatabase::open(const std::string& filename, const int flags) {
     auto rc = sqlite3_open_v2(filename.c_str(), &db_, flags, nullptr);
 
     if (rc) {
-//        std::string errorMsg = "Can't open database: " + std::string(sqlite3_errstr(rc));
-//        sqlite3_close(db_);
-//        throw SQLiteDatabaseException(errorMsg);
+        std::string errorMsg = "Can't open database: " + std::string(sqlite3_errstr(rc));
+        sqlite3_close(db_);
+        throw SQLiteDatabaseException(errorMsg);
     }
 
     open_ = true;
@@ -52,8 +52,8 @@ void SQLiteDatabase::close() {
     auto rc = sqlite3_close(db_);
 
     if (rc) {
-//        std::string errorMsg = "Can't close database: " + std::string(sqlite3_errstr(rc));
-//        throw SQLiteDatabaseException(errorMsg);
+        std::string errorMsg = "Can't close database: " + std::string(sqlite3_errstr(rc));
+        throw SQLiteDatabaseException(errorMsg);
     }
 
     db_ = nullptr;
@@ -75,7 +75,7 @@ int SQLiteDatabase::getVersion() {
         }
         else {
             sqlite3_finalize(pStmt);
-//            throw SQLiteDatabaseException("Failed to query database version " + getSQLite3ErrorMessage());
+            throw SQLiteDatabaseException("Failed to query database version " + getSQLite3ErrorMessage());
         }
     }
     else {

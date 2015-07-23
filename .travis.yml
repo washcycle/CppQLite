@@ -16,7 +16,9 @@ before_install:
     - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
     - sudo apt-get purge cmake
     - sudo apt-get install cmake=2.8.12.2-0~13~ubuntu12.04.1
-    - sudo apt-get install -qq sqlite3 libsqlite3-dev
+    - wget http://www.sqlite.org/cgi/src/tarball/SQLite-a71e2a72.tar.gz -O sqlite3.7.11.tar.gz
+    - tar -xf sqlite3.7.11.tar.gz
+    - cd sqlite3.7.11.tar.gz && ./configure --prefix=/usr && make && sudo make install
     - sqlite3 --version
 
 before_script:
