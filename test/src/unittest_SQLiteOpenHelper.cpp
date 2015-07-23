@@ -1,13 +1,6 @@
 #include <gtest/gtest.h>
 #include "SQLiteDatabaseHelper.h"
 
-// Test Car Data Structure
-struct Car{
-    std::string make;
-    int mpg;
-    int weight;
-};
-
 TEST(SQLiteDatabaseHelper, read_write_test) {
 
     SQLiteDatabaseHelper dbHelper;
