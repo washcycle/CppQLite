@@ -18,7 +18,7 @@ before_install:
     - sudo apt-get install cmake=2.8.12.2-0~13~ubuntu12.04.1
     - wget http://www.sqlite.org/cgi/src/tarball/SQLite-a71e2a72.tar.gz -O sqlite3.7.11.tar.gz
     - tar -xf sqlite3.7.11.tar.gz
-    - cd sqlite3.7.11.tar.gz && ./configure --prefix=/usr && make && sudo make install
+    - cd SQLite-a71e2a72 && ./configure --prefix=/usr && make && sudo make install
     - sqlite3 --version
 
 before_script:
