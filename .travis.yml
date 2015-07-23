@@ -15,6 +15,7 @@ before_install:
     - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
     - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
     - sudo apt-get purge cmake
+    - sudo apt-get purge sqlite3
     - sudo apt-get install cmake=2.8.12.2-0~13~ubuntu12.04.1
     # Install sqlite 3.7.11+
     - sudo apt-get install tcl -y
