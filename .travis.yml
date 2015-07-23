@@ -23,6 +23,7 @@ before_install:
     - tar -xf sqlite3.7.11.tar.gz
     - cd SQLite-a71e2a72 && ./configure --prefix=/usr/local && make && sudo make install && cd ..
     - sqlite3 --version
+    - export $PATH:/usr/local/include
 
 before_script:
     - mkdir build

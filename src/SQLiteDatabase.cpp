@@ -13,9 +13,13 @@ namespace sqlite {
 
 namespace utility {
 // Handy function for checking if file exists
-bool fexists(const std::string& filename) {
-    std::ifstream ifile(filename.c_str());
-    return ifile;
+inline bool fexists(const std::string& filename){
+    if (FILE *file = fopen(filename.c_str(), "r")) {
+        fclose(file);
+        return true;
+    } else {
+        return false;
+    }
 };
 
 } /* namespace sqlite::utility */
