@@ -9,6 +9,7 @@ sudo: required
 before_install:
     - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
     - sudo add-apt-repository ppa:smspillaz/cmake-2.8.12 -y
+    - sudo apt-add-repository ppa:travis-ci/sqlite3 -y
     - sudo apt-get update -qq
     - sudo apt-get install -qq libyajl-dev libxml2-dev libxqilla-dev
     - if [ "$CXX" = "clang++" ]; then sudo apt-get install -qq libstdc++-4.8-dev; fi
@@ -17,13 +18,9 @@ before_install:
     - sudo apt-get purge cmake
     - sudo apt-get purge sqlite3
     - sudo apt-get install cmake=2.8.12.2-0~13~ubuntu12.04.1
-    # Install sqlite 3.7.11+
-    - sudo apt-get install tcl -y
-    - wget http://www.sqlite.org/cgi/src/tarball/SQLite-cd0b37c5.tar.gz -O sqlite3.7.15.tar.gz
-    - tar -xf sqlite3.7.15.tar.gz
-    - cd SQLite-cd0b37c5 && ./configure --prefix=/usr/local && make && sudo make install && cd ..
+    # Install sqlite 3.7.15+
+    - sudo apt-get install -y sqlite3=3.7.15.1-1~travis1
     - sqlite3 --version
-    - export PATH=$PATH:/usr/local/include
 
 before_script:
     - mkdir build
