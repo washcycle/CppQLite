@@ -21,7 +21,7 @@ before_install:
     - sudo apt-get install tcl -y
     - wget http://www.sqlite.org/cgi/src/tarball/SQLite-a71e2a72.tar.gz -O sqlite3.7.11.tar.gz
     - tar -xf sqlite3.7.11.tar.gz
-    - cd SQLite-a71e2a72 && ./configure --prefix=/usr && make && sudo make install && cd ..
+    - cd SQLite-a71e2a72 && ./configure --prefix=/usr/local && make && sudo make install && cd ..
     - sqlite3 --version
 
 before_script:
