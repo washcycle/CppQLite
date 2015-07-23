@@ -63,7 +63,7 @@ IF(BUILD_TEST)
     # Download and install GoogleTest
     ExternalProject_Add(
         gtest
-        URL https://googletest.googlecode.com/files/gtest-1.7.0.zip
+        SVN_REPOSITORY http://googletest.googlecode.com/svn/trunk/
         TIMEOUT 30
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/test/gtest
         # Disable install step
