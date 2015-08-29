@@ -15,6 +15,9 @@
 
 namespace sqlite {
 
+/**
+ * SQLiteOpenHelper abstract class for interacting with SQLiteDatabase
+ */
 class CPPSQLITE_API SQLiteOpenHelper {
 public:
     SQLiteOpenHelper(const std::string& database_name, const int version);

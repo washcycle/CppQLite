@@ -85,9 +85,9 @@ public:
                  const std::string& limit);
 
 
-    /** Convenience query function returns non-distinct results.
+    /** Convenience query function
      *
-     * @param distinct [in] will return distinct results if true else all results will be returned.
+     * @param distinct [in] if true will return distinct results else all results will be returned.
      * @param table [in] table to query
      * @param columns [in] columns to return
      * @param selection [in] where column restrictions eg. "field1 = ? AND field2 = ?"

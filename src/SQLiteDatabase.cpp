@@ -197,9 +197,15 @@ bool SQLiteDatabase::isOpen() {
     return open_;
 }
 
+Cursor SQLiteDatabase::query(const std::string& table, const std::vector<std::string>& columns,
+                             const std::string& selection, const std::vector<std::string>& selectionArgs,
+                             const std::string& groupBy, const std::string& orderBy, const std::string& limit){
+    query(false, table, columns, selection, selectionArgs, groupBy, orderBy, limit);
+}
+
 Cursor SQLiteDatabase::query(bool distinct, const std::string& table, const std::vector<std::string>& columns,
-             const std::string& selection, const std::vector<std::string>& selectionArgs, const std::string& groupBy,
-             const std::string& orderBy, const std::string& limit) {
+                             const std::string& selection, const std::vector<std::string>& selectionArgs,
+                             const std::string& groupBy, const std::string& orderBy, const std::string& limit) {
     std::string sql = "SELECT ";
 
     if(distinct){
