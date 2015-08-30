@@ -78,7 +78,7 @@ public:
      * @param orderBy [in] order by columns
      * @param limit [in] limit result rows
      *
-     * @return Cursor [out] Cursor containing the result set from the query, will be empty if not results are found.
+     * @return Cursor [out] Cursor containing the result set from the query, will be empty if no results are found.
      */
     Cursor query(const std::string& table, const std::vector<std::string>& columns, const std::string& selection,
                  const std::vector<std::string>& selectionArgs, const std::string& groupBy, const std::string& orderBy,
@@ -96,7 +96,7 @@ public:
      * @param orderBy [in] order by columns
      * @param limit [in] limit result rows
      *
-     * @return Cursor [out] Cursor containing the result set from the query, will be empty if not results are found.
+     * @return Cursor [out] Cursor containing the result set from the query, will be empty if no results are found.
      */
     Cursor query(bool distinct, const std::string& table, const std::vector<std::string>& columns,
                  const std::string& selection, const std::vector<std::string>& selectionArgs, const std::string& groupBy,
