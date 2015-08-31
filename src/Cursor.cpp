@@ -46,6 +46,14 @@ int Cursor::getInt(const int columnIndex) const {
     return stoi(rs[pos_][columnIndex - 1]);
 }
 
+long Cursor::getLong(const int columnIndex) const {
+    if(columnIndex < 0 || columnIndex > columnNames.size()){
+        throw new SQLiteDatabaseException("Invalid column index");
+    }
+
+    return stol(rs[pos_][columnIndex - 1]);
+}
+
 void Cursor::addRow(const std::vector<std::string>& resultRow){    
     rs.push_back(resultRow);
     count_++;
@@ -66,5 +74,6 @@ void Cursor::reset(){
 bool Cursor::hasNext() {
     return (pos_++ < count_);
 }
+
 } /* namespace sqlite */
 

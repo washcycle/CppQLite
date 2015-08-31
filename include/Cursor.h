@@ -34,11 +34,18 @@ public:
     const int getCount() const { return ( count_ + 1 ); };
     const std::vector<std::string>& getColumnsNames() const { return columnNames; }
     int getColumnIndex(const std::string& columnName) const;
+
     unsigned char getBlob(const int columnIndex) const;
+    unsigned char getBlob(std::string columnName) const;
     std::string getString(const int columnIndex) const;
+    std::string getString(const std::string columnName) const;
     int getInt(const int columnIndex) const;
+    int getInt(std::string columnName) const;
     int getDouble(const int columnIndex) const;
-    
+    int getDouble(std::string columnName) const;
+    long getLong(const int columnIndex) const;
+    long getLong(std::string columnName) const;
+
     // cursor navigation
     bool next();
     
@@ -53,6 +60,7 @@ private:
     
     void addRow(const std::vector<std::string>& resultRow);
     void addColumnName(const std::vector<std::string> &columnNames);
+
 };
 
 } /* namespace sqlite */
