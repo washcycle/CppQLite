@@ -32,7 +32,7 @@ ELSE(BUILD_SHARED_LIBS)
 ENDIF(BUILD_SHARED_LIBS)
 
 # Create list of CppQLite source files
-file(GLOB SOURCES "src/*.cpp")
+file(GLOB SOURCES "src/*.cpp" "include/*h")
 
 add_library(CppQLite ${SOURCES})
 
