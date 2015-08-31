@@ -7,6 +7,8 @@
 
 #include "SQLiteDatabase.h"
 
+#include <algorithm>
+
 namespace sqlite {
 
 
@@ -128,7 +130,7 @@ Cursor SQLiteDatabase::query(const std::string& sql) {
     }
 
     // columns in the returned result set
-    unsigned int cols = 0;
+    int cols = 0;
 
     // Step through all rows in the result set
     // building the cursor result set
@@ -200,7 +202,7 @@ bool SQLiteDatabase::isOpen() {
 Cursor SQLiteDatabase::query(const std::string& table, const std::vector<std::string>& columns,
                              const std::string& selection, const std::vector<std::string>& selectionArgs,
                              const std::string& groupBy, const std::string& orderBy, const std::string& limit){
-    query(false, table, columns, selection, selectionArgs, groupBy, orderBy, limit);
+    return query(false, table, columns, selection, selectionArgs, groupBy, orderBy, limit);
 }
 
 Cursor SQLiteDatabase::query(bool distinct, const std::string& table, const std::vector<std::string>& columns,
@@ -280,5 +282,79 @@ Cursor SQLiteDatabase::query(bool distinct, const std::string& table, const std:
     sqlite3_finalize(stmt);
 
     return c;
+}
+
+int SQLiteDatabase::insert(const std::string& table, const std::vector<std::string>& columns, const std::vector<std::string>& values,
+                           const std::string& selection, const std::vector<std::string>& selectionArgs) {
+    long result = -1;
+
+    if(columns.size() == 0){
+        throw new SQLiteDatabaseException("columns vector must has at least one item");
+    }
+
+    // Validate that there is a value for each column
+    if(columns.size() != values.size()){
+        throw new SQLiteDatabaseException("columns size must match values size");
+    }
+
+    std::string sql = "INSERT ";
+
+    // Add table
+    sql += "INTO " + table;
+
+    sql += "(";
+    // add return columns
+    for(auto ii = 0; ii < columns.size(); ii++){
+        sql += columns[ii] + (ii < columns.size() - 1 ? ", " : " ");
+    }
+
+    // add values
+    sql += ") VALUES (";
+    for(auto ii = 0; ii < values.size(); ii++) {
+        sql += values[ii] + (ii < values.size() - 1 ? ", " : " ");
+    }
+    sql += ")";
+
+    // Add where clause if needed
+    if(!selection.empty()){
+        sql += " WHERE ";
+
+        // add selections
+        for(auto ii = 0; ii < selection.size(); ii++){
+            sql += selection[ii] + (ii < selection.size() ? ", " : "");
+        }
+    }
+
+    sqlite3_stmt *stmt;
+
+    auto rc = sqlite3_prepare_v2(db_, sql.c_str(), -1, &stmt, nullptr);
+
+    if(rc){
+        sqlite3_finalize(stmt);
+        throw SQLiteDatabaseException("Error preparing statement " + getSQLite3ErrorMessage());
+    }
+
+    // Step through all rows in the result set
+    // building the cursor result set
+    if(sqlite3_step(stmt) != SQLITE_DONE){
+        throw SQLiteDatabaseException("Error executing insert statement " + getSQLite3ErrorMessage());
+    }
+
+    // get the inserted rowid
+    result = sqlite3_last_insert_rowid(db_);
+
+    sqlite3_finalize(stmt);
+
+    return result;
+}
+
+int SQLiteDatabase::update(const std::string& table, const std::vector<std::string>& columns, const std::vector<std::string>& values,
+                           const std::string& selection, const std::vector<std::string>& selectionArgs) {
+    return 0;
+}
+
+int SQLiteDatabase::remove(const std::string& table, const std::string& selection,
+                           const std::vector<std::string>& selectionArgs) {
+    return 0;
 }
 } /* namespace sqlite */

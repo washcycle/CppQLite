@@ -108,6 +108,42 @@ public:
      */
     Cursor query(const std::string& sql);
 
+    /** Convenience insert row into database function
+     *
+     * @param table [in] table to query
+     * @param columns [in] columns to insert
+     * @param values [in] values to insert for each column
+     * @param selection [in] where column restrictions eg. "field1 = ? AND field2 = ?"
+     * @param selectionArgs [in] where column binding arguments
+     *
+     * @return int [out] row ID if id column exists else 0, -1 on error
+     */
+    int insert(const std::string& table, const std::vector<std::string>& columns, const std::vector<std::string>& values,
+                const std::string& selection, const std::vector<std::string>& selectionArgs);
+
+    /** Convenience update row function
+     *
+     * @param table [in] table to query
+     * @param columns [in] columns to update
+     * @param values [in] values for columns to update
+     * @param selection [in] where column restrictions eg. "field1 = ? AND field2 = ?"
+     * @param selectionArgs [in] where column binding arguments
+     *
+     * @return int [out] number of records updated, -1 on error
+     */
+    int update(const std::string& table, const std::vector<std::string>& columns, const std::vector<std::string>& values,
+                const std::string& selection, const std::vector<std::string>& selectionArgs);
+
+    /** Convenience delete row function
+     *
+     * @param table [in] table to query
+     * @param selection [in] where column restrictions eg. "field1 = ? AND field2 = ?"
+     * @param selectionArgs [in] where column binding arguments
+     *
+     * @return int [out] number of records deleted, -1 on error
+     */
+    int remove(const std::string& table, const std::string& selection, const std::vector<std::string>& selectionArgs);
+
     /** Executes the sql and expects no results to be returned. */
     void execQuery(const std::string& sql);
 
@@ -125,6 +161,7 @@ private:
 
     std::string getStdString(const unsigned char* text);
     std::string getSQLite3ErrorMessage();
+
 };
 
 } /* namespace sqlite */
