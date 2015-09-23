@@ -228,11 +228,7 @@ Cursor SQLiteDatabase::query(bool distinct, const std::string& table, const std:
     // Add where clause if needed
     if(!selection.empty()){
         sql += " WHERE ";
-
-        // add selections
-        for(auto ii = 0; ii < selection.size(); ii++){
-            sql += selection[ii] + (ii < selection.size() - 1 ? ", " : "");
-        }
+        sql += selection;
     }
 
     // Add where clause if needed
@@ -253,6 +249,11 @@ Cursor SQLiteDatabase::query(bool distinct, const std::string& table, const std:
     sqlite3_stmt *stmt;
 
     auto rc = sqlite3_prepare_v2(db_, sql.c_str(), -1, &stmt, nullptr);
+
+    // Bind arguments
+    for(auto ii = 0; ii < selectionArgs.size(); ii++) {
+        sqlite3_bind_text(stmt, ii + 1, selectionArgs[ii].c_str(), -1, SQLITE_TRANSIENT);
+    }
 
     if(rc){
         sqlite3_finalize(stmt);
@@ -317,16 +318,17 @@ int SQLiteDatabase::insert(const std::string& table, const std::vector<std::stri
     // Add where clause if needed
     if(!selection.empty()){
         sql += " WHERE ";
-
-        // add selections
-        for(auto ii = 0; ii < selection.size(); ii++){
-            sql += selection[ii] + (ii < selection.size() - 1 ? ", " : "");
-        }
+        sql += selection;
     }
 
     sqlite3_stmt *stmt;
 
     auto rc = sqlite3_prepare_v2(db_, sql.c_str(), -1, &stmt, nullptr);
+
+    // Bind arguments
+    for(auto ii = 0; ii < selectionArgs.size(); ii++) {
+        sqlite3_bind_text(stmt, ii + 1, selectionArgs[ii].c_str(), -1, SQLITE_TRANSIENT);
+    }
 
     if(rc){
         sqlite3_finalize(stmt);
@@ -349,7 +351,7 @@ int SQLiteDatabase::insert(const std::string& table, const std::vector<std::stri
 
 int SQLiteDatabase::update(const std::string& table, const std::vector<std::string>& columns, const std::vector<std::string>& values,
                            const std::string& selection, const std::vector<std::string>& selectionArgs) {
-    long result;
+    int result;
 
     if(columns.size() == 0){
         throw new SQLiteDatabaseException("columns vector must has at least one item");
@@ -378,16 +380,17 @@ int SQLiteDatabase::update(const std::string& table, const std::vector<std::stri
     // Add where clause if needed
     if(!selection.empty()){
         sql += " WHERE ";
-
-        // add selections
-        for(auto ii = 0; ii < selection.size(); ii++){
-            sql += selection[ii] + (ii < selection.size() - 1 ? ", " : "");
-        }
+        sql += selection;
     }
 
     sqlite3_stmt *stmt;
 
     auto rc = sqlite3_prepare_v2(db_, sql.c_str(), -1, &stmt, nullptr);
+
+    // Bind arguments
+    for(auto ii = 0; ii < selectionArgs.size(); ii++) {
+        sqlite3_bind_text(stmt, ii + 1, selectionArgs[ii].c_str(), -1, SQLITE_TRANSIENT);
+    }
 
     if(rc){
         sqlite3_finalize(stmt);
@@ -410,6 +413,48 @@ int SQLiteDatabase::update(const std::string& table, const std::vector<std::stri
 
 int SQLiteDatabase::remove(const std::string& table, const std::string& selection,
                            const std::vector<std::string>& selectionArgs) {
-    return 0;
+    long result;
+
+    if(selection.size() == 0){
+      throw new SQLiteDatabaseException("selection must has at least one column name");
+    }
+
+    if(selection.size() == selectionArgs.size()){
+      throw new SQLiteDatabaseException("selection and selectionArgs must be the same size");
+    }
+
+    std::string sql = "DELETE FROM ";
+
+    // Add table
+    sql += table;
+    sql += " WHERE ";
+    sql += selection;
+
+    sqlite3_stmt *stmt;
+
+    auto rc = sqlite3_prepare_v2(db_, sql.c_str(), -1, &stmt, nullptr);
+
+    // Bind arguments
+    for(auto ii = 0; ii < selectionArgs.size(); ii++) {
+        sqlite3_bind_text(stmt, ii + 1, selectionArgs[ii].c_str(), -1, SQLITE_TRANSIENT);
+    }
+
+    if(rc){
+      sqlite3_finalize(stmt);
+      throw SQLiteDatabaseException("Error preparing update statement " + getSQLite3ErrorMessage());
+    }
+
+    // Step through all rows in the result set
+    // building the cursor result set
+    if(sqlite3_step(stmt) != SQLITE_DONE){
+      throw SQLiteDatabaseException("Error executing update statement " + getSQLite3ErrorMessage());
+    }
+
+    // Get number of rows modified
+    result = sqlite3_changes(db_);
+
+    sqlite3_finalize(stmt);
+
+    return result;
 }
 } /* namespace sqlite */
