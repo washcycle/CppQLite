@@ -140,7 +140,6 @@ Cursor SQLiteDatabase::query(const std::string& sql) {
         if (firstRow) {
             cols = sqlite3_column_count(pStmt);
 
-            std::vector<std::string> columnNames;
             for (auto col = 0; col < cols; col++) {
                 c.columnNames.push_back(std::string(sqlite3_column_name(pStmt, col)));
                 c.columnNamesIndexMap[c.columnNames.back()] = col;
@@ -232,7 +231,7 @@ Cursor SQLiteDatabase::query(bool distinct, const std::string& table, const std:
 
         // add selections
         for(auto ii = 0; ii < selection.size(); ii++){
-            sql += selection[ii] + (ii < selection.size() ? ", " : "");
+            sql += selection[ii] + (ii < selection.size() - 1 ? ", " : "");
         }
     }
 
@@ -286,7 +285,7 @@ Cursor SQLiteDatabase::query(bool distinct, const std::string& table, const std:
 
 int SQLiteDatabase::insert(const std::string& table, const std::vector<std::string>& columns, const std::vector<std::string>& values,
                            const std::string& selection, const std::vector<std::string>& selectionArgs) {
-    long result = -1;
+    long result;
 
     if(columns.size() == 0){
         throw new SQLiteDatabaseException("columns vector must has at least one item");
@@ -321,7 +320,7 @@ int SQLiteDatabase::insert(const std::string& table, const std::vector<std::stri
 
         // add selections
         for(auto ii = 0; ii < selection.size(); ii++){
-            sql += selection[ii] + (ii < selection.size() ? ", " : "");
+            sql += selection[ii] + (ii < selection.size() - 1 ? ", " : "");
         }
     }
 
@@ -350,7 +349,63 @@ int SQLiteDatabase::insert(const std::string& table, const std::vector<std::stri
 
 int SQLiteDatabase::update(const std::string& table, const std::vector<std::string>& columns, const std::vector<std::string>& values,
                            const std::string& selection, const std::vector<std::string>& selectionArgs) {
-    return 0;
+    long result;
+
+    if(columns.size() == 0){
+        throw new SQLiteDatabaseException("columns vector must has at least one item");
+    }
+
+    // Validate that there is a value for each column
+    if(columns.size() != values.size()){
+        throw new SQLiteDatabaseException("columns size must match values size");
+    }
+
+    std::string sql = "UPDATE ";
+
+    // Add table
+    sql += table;
+
+    sql += " SET ";
+    // add return columns
+    for(auto ii = 0; ii < columns.size(); ii++){
+        sql += columns[ii];
+        sql += " = ";
+        sql += values[ii];
+        sql += (ii < columns.size() - 1 ? ", " : "");
+    }
+    sql += " ";
+
+    // Add where clause if needed
+    if(!selection.empty()){
+        sql += " WHERE ";
+
+        // add selections
+        for(auto ii = 0; ii < selection.size(); ii++){
+            sql += selection[ii] + (ii < selection.size() - 1 ? ", " : "");
+        }
+    }
+
+    sqlite3_stmt *stmt;
+
+    auto rc = sqlite3_prepare_v2(db_, sql.c_str(), -1, &stmt, nullptr);
+
+    if(rc){
+        sqlite3_finalize(stmt);
+        throw SQLiteDatabaseException("Error preparing update statement " + getSQLite3ErrorMessage());
+    }
+
+    // Step through all rows in the result set
+    // building the cursor result set
+    if(sqlite3_step(stmt) != SQLITE_DONE){
+        throw SQLiteDatabaseException("Error executing update statement " + getSQLite3ErrorMessage());
+    }
+
+    // Get number of rows modified
+    result = sqlite3_changes(db_);
+
+    sqlite3_finalize(stmt);
+
+    return result;
 }
 
 int SQLiteDatabase::remove(const std::string& table, const std::string& selection,

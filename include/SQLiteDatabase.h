@@ -22,7 +22,7 @@
 
 namespace sqlite {
 
-/** SQLiteDatabaseException custom exception thrown by SQLiteDabase functions.
+/** SQLiteDatabaseException custom exception thrown by SQLiteDatabase functions.
  *
  */
 class CPPSQLITE_API SQLiteDatabaseException : public std::exception

@@ -167,3 +167,32 @@ TEST_F(SQLiteDatabaseTestFixture, insert_test) {
     }
 }
 
+TEST_F(SQLiteDatabaseTestFixture, update_test) {
+
+    sqlite::SQLiteDatabase db;
+
+    try{
+        db.open(test_database_filename_, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
+
+        // Create Cars table test data
+        const std::string kCreateTable =
+            "CREATE TABLE IF NOT EXISTS cars "
+                "(mpg text, "
+                "weight text)";
+
+        db.execQuery(kCreateTable);
+
+        const std::string table = "cars";
+        long id = db.insert(table, std::vector<std::string>{"mpg", "weight"}, std::vector<std::string>{"34", "2000"}, "", std::vector<std::string>{});
+        long id2 = db.insert(table, std::vector<std::string>{"mpg", "weight"}, std::vector<std::string>{"20", "1500"}, "", std::vector<std::string>{});
+
+        int updated_rows = db.update(table, std::vector<std::string>{"mpg", "weight"}, std::vector<std::string>{"1", "1"}, "", std::vector<std::string>{});
+
+        EXPECT_EQ(updated_rows, 2);
+
+        db.close();
+    }
+    catch (const std::exception & e){
+        std::cout << e.what() << std::endl;
+    }
+}
