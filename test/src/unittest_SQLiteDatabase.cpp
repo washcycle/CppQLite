@@ -71,9 +71,6 @@ TEST_F(SQLiteDatabaseTestFixture, get_readonly_database_test) {
 
     sqlite::SQLiteDatabase db;
 
-    int expected_version = 1;
-    int version = 0;
-
     try{
         db.open(test_database_filename_, SQLITE_OPEN_READONLY);
 
