@@ -145,7 +145,6 @@ TEST_F(SQLiteDatabaseTestFixture, insert_test) {
     try{
         db.open(test_database_filename_, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
 
-
         // Create Cars table test data
         const std::string kCreateTable =
                 "CREATE TABLE IF NOT EXISTS cars "
