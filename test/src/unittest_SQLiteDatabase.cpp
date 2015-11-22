@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <thread> // for multithreaded unit test
 
 bool fexists(const std::string& filename) {
   std::ifstream ifile(filename.c_str());
@@ -225,6 +226,51 @@ TEST_F(SQLiteDatabaseTestFixture, remove_test) {
         int deleted_rows = db.remove(table, "mpg = ? AND weight = ?", std::vector<std::string>{"34", "2000"});
 
         EXPECT_EQ(deleted_rows, 1);
+
+        db.close();
+    }
+    catch (const std::exception & e){
+        std::cout << e.what() << std::endl;
+    }
+}
+
+// Helper function for multi_threaded_insert_test
+void call_from_thread(sqlite::SQLiteDatabase db, std::string table) {
+    db.insert(table, std::vector<std::string>{"mpg", "weight"}, std::vector<std::string>{"34", "2000"}, "", std::vector<std::string>{});
+}
+
+TEST_F(SQLiteDatabaseTestFixture, multi_threaded_insert_test) {
+
+    sqlite::SQLiteDatabase db;
+
+    try{
+        db.open(test_database_filename_, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
+
+        // Create Cars table test data
+        const std::string kCreateTable =
+            "CREATE TABLE IF NOT EXISTS cars "
+                "(mpg text, "
+                "weight text)";
+
+        db.execQuery(kCreateTable);
+
+        const std::string table = "cars";
+
+        std::thread t0(call_from_thread, db, table);
+        std::thread t1(call_from_thread, db, table);
+        std::thread t2(call_from_thread, db, table);
+        std::thread t3(call_from_thread, db, table);
+
+        t0.join();
+        t1.join();
+        t2.join();
+        t3.join();
+
+        sqlite::Cursor c = db.query("select * from cars;");
+
+        int count = c.getCount();
+        std::cout << count;
+        EXPECT_EQ(count, 4);
 
         db.close();
     }
