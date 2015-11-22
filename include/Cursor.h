@@ -31,7 +31,7 @@ public:
     bool hasNext();
     void reset();
     
-    const int getCount() const { return ( count_ + 1 ); };
+    const int getCount() const { return ( count_ ); };
     const std::vector<std::string>& getColumnsNames() const { return columnNames; }
     int getColumnIndex(const std::string& columnName) const;
 
