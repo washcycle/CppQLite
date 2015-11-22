@@ -219,8 +219,8 @@ TEST_F(SQLiteDatabaseTestFixture, remove_test) {
         db.execQuery(kCreateTable);
 
         const std::string table = "cars";
-        long id = db.insert(table, std::vector<std::string>{"mpg", "weight"}, std::vector<std::string>{"34", "2000"}, "", std::vector<std::string>{});
-        long id2 = db.insert(table, std::vector<std::string>{"mpg", "weight"}, std::vector<std::string>{"20", "1500"}, "", std::vector<std::string>{});
+        db.insert(table, std::vector<std::string>{"mpg", "weight"}, std::vector<std::string>{"34", "2000"}, "", std::vector<std::string>{});
+        db.insert(table, std::vector<std::string>{"mpg", "weight"}, std::vector<std::string>{"20", "1500"}, "", std::vector<std::string>{});
 
         int deleted_rows = db.remove(table, "mpg = ? AND weight = ?", std::vector<std::string>{"34", "2000"});
 
