@@ -7,7 +7,7 @@ SQLite C++ API that provides convince functions and low level access to the SQLi
 * Cursor - provides common cursor functionality for query result sets.
 
 # Example Use
-```cpp
+```{cpp}
 #include <SQLiteOpenHelper.h>
 #include <iostream>
 
