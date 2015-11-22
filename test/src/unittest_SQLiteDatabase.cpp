@@ -235,7 +235,7 @@ TEST_F(SQLiteDatabaseTestFixture, remove_test) {
 }
 
 // Helper function for multi_threaded_insert_test
-void call_from_thread(sqlite::SQLiteDatabase db, std::string table) {
+void call_from_thread(sqlite::SQLiteDatabase& db, std::string table) {
     db.insert(table, std::vector<std::string>{"mpg", "weight"}, std::vector<std::string>{"34", "2000"}, "", std::vector<std::string>{});
 }
 
@@ -256,10 +256,10 @@ TEST_F(SQLiteDatabaseTestFixture, multi_threaded_insert_test) {
 
         const std::string table = "cars";
 
-        std::thread t0(call_from_thread, db, table);
-        std::thread t1(call_from_thread, db, table);
-        std::thread t2(call_from_thread, db, table);
-        std::thread t3(call_from_thread, db, table);
+        std::thread t0(call_from_thread, std::ref(db), table);
+        std::thread t1(call_from_thread, std::ref(db), table);
+        std::thread t2(call_from_thread, std::ref(db), table);
+        std::thread t3(call_from_thread, std::ref(db), table);
 
         t0.join();
         t1.join();
@@ -269,7 +269,6 @@ TEST_F(SQLiteDatabaseTestFixture, multi_threaded_insert_test) {
         sqlite::Cursor c = db.query("select * from cars;");
 
         int count = c.getCount();
-        std::cout << count;
         EXPECT_EQ(count, 4);
 
         db.close();
